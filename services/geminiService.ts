@@ -1,10 +1,12 @@
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 
-const apiKey = process.env.API_KEY;
-
 let ai: GoogleGenAI | null = null;
 
 export const initializeAI = () => {
+  // Access process.env inside the function to prevent immediate crashes in environments
+  // where process is undefined during the initial module parsing.
+  const apiKey = process.env.API_KEY;
+  
   if (!apiKey) {
     console.error("API_KEY is missing from environment variables.");
     return null;

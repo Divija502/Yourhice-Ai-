@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles } from 'lucide-react';
+import { ArrowUp, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface InputAreaProps {
@@ -11,7 +11,6 @@ const InputArea: React.FC<InputAreaProps> = ({ onSendMessage, isLoading }) => {
   const [input, setInput] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'inherit';
@@ -38,26 +37,26 @@ const InputArea: React.FC<InputAreaProps> = ({ onSendMessage, isLoading }) => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent z-10">
+    <div className="fixed bottom-0 left-0 right-0 p-4 pb-6 bg-gradient-to-t from-[#0f0f12] via-[#0f0f12]/90 to-transparent z-10">
       <div className="max-w-3xl mx-auto">
         <motion.div 
             layout
-            className="relative flex items-end gap-2 p-2 rounded-3xl bg-surface/80 border border-zinc-700/50 backdrop-blur-xl shadow-2xl ring-1 ring-white/5"
+            className="relative flex items-end gap-3 p-2.5 rounded-[24px] bg-zinc-900/50 border border-white/10 backdrop-blur-xl shadow-2xl"
         >
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 pl-2">
              <textarea
                 ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask anything..."
+                placeholder="Ask FlashChat..."
                 rows={1}
-                className="w-full bg-transparent text-zinc-200 placeholder-zinc-500 text-base p-3 resize-none focus:outline-none max-h-[120px] scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent rounded-xl"
+                className="w-full bg-transparent text-zinc-100 placeholder-zinc-500 text-[16px] leading-normal p-3 resize-none focus:outline-none max-h-[120px] scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent rounded-xl font-medium"
                 disabled={isLoading}
               />
           </div>
           
-          <div className="flex-shrink-0 pb-1 pr-1">
+          <div className="flex-shrink-0 pb-0.5 pr-0.5">
             <AnimatePresence mode="wait">
                 {input.trim() ? (
                      <motion.button
@@ -67,12 +66,12 @@ const InputArea: React.FC<InputAreaProps> = ({ onSendMessage, isLoading }) => {
                      exit={{ scale: 0.8, opacity: 0 }}
                      onClick={() => handleSubmit()}
                      disabled={isLoading}
-                     className="p-3 rounded-full bg-gradient-to-br from-primary to-accent text-white shadow-lg hover:shadow-primary/25 hover:scale-105 active:scale-95 transition-all duration-200 group"
+                     className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center shadow-lg hover:shadow-white/20 hover:scale-105 active:scale-95 transition-all duration-200"
                    >
                      {isLoading ? (
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
                      ) : (
-                        <Send size={20} className="ml-0.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                        <ArrowUp size={20} strokeWidth={2.5} />
                      )}
                    </motion.button>
                 ) : (
@@ -81,7 +80,7 @@ const InputArea: React.FC<InputAreaProps> = ({ onSendMessage, isLoading }) => {
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
-                        className="p-3 text-zinc-500"
+                        className="w-10 h-10 flex items-center justify-center text-zinc-600"
                     >
                          <Sparkles size={20} />
                     </motion.div>
@@ -89,12 +88,6 @@ const InputArea: React.FC<InputAreaProps> = ({ onSendMessage, isLoading }) => {
             </AnimatePresence>
           </div>
         </motion.div>
-        
-        <div className="text-center mt-2">
-            <p className="text-[10px] text-zinc-500 font-medium">
-                Powered by Gemini 1.5 Flash • Designed for Speed
-            </p>
-        </div>
       </div>
     </div>
   );
